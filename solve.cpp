@@ -7,7 +7,7 @@
 #include "equality.h"
 
 int SolveEquation(double a, double b, double c,
-                        double* x1, double* x2)                     /*решение уравнения*/
+                        double* x1, double* x2)                     
 {
     assert(x1 != NULL);
     assert(x2 != NULL);
@@ -16,7 +16,7 @@ int SolveEquation(double a, double b, double c,
     assert(isfinite(c));
 
     int nRoots = 0;
-    double d;                                       /*дискриминант*/
+    double d;                                       
     d = b*b - 4*a*c;
 
     (AreEqual(a, 0))
@@ -27,7 +27,7 @@ int SolveEquation(double a, double b, double c,
 
 
 
-int Linear(double b, double c, double* x1)                          /*случай линейной функции*/
+int Linear(double b, double c, double* x1)                         
 {
     assert(x1 != NULL);
     assert(isfinite(b));
@@ -35,20 +35,20 @@ int Linear(double b, double c, double* x1)                          /*случай лин
 
     if (AreEqual(b, 0))
     {
-        if (AreEqual(c, 0))                               /*корней бесконечно много*/
+        if (AreEqual(c, 0))                               
         {
             return NumOfRoots::INFROOTS;
         }
 
         else
         {
-            return NumOfRoots::NOROOTS;                                /*(0x^2 + 0x + c = 0) корней нет*/
+            return NumOfRoots::NOROOTS;                               
         }
     }
 
 
     else
-    {                   /*(bx + c = 0) 1 корень*/
+    {                   
         *x1 = -c/b;
         return NumOfRoots::ONEROOT;
     }
@@ -56,7 +56,7 @@ int Linear(double b, double c, double* x1)                          /*случай лин
 
 
 int Square(double a, double b, double c, double d,
-                  double* x1, double* x2)                           /*квадратное уравнение*/
+                  double* x1, double* x2)                           
 {
     assert(x1 != NULL);
     assert(x2 != NULL);
@@ -64,17 +64,17 @@ int Square(double a, double b, double c, double d,
     assert(isfinite(b));
     assert(isfinite(c));
 
-    if (AreEqual(d, 0))                                   /*полный квадрат - 1 корень*/
+    if (AreEqual(d, 0))                                   
     {
         *x1 = -b/(2*a);
         return NumOfRoots::ONEROOT;
     }
-                                                 /*дискриминант меньше нуля - 0 корней*/
+                                                
     else if (d < 0)
     {
         return NumOfRoots::NOROOTS;
     }
-                                                  /*положительный дискриминант - 2 корня*/
+                                                  
     else
     {
         *x1 = (-b - sqrt(d))/(2*a);
@@ -82,3 +82,4 @@ int Square(double a, double b, double c, double d,
         return NumOfRoots::TWOROOTS;
     }
 }
+
