@@ -4,7 +4,7 @@
 #include "solve.h"
 
 
-void Input(double* a, double* b, double* c)                         /*проверка корректности ввода - не менее 3 чисел*/
+void Input(double* a, double* b, double* c)                         
 {
     assert (a != NULL);
     assert (b != NULL);
@@ -32,7 +32,7 @@ void Input(double* a, double* b, double* c)                         /*проверка к
 
 
 
-int EquationOutput(double x1, double x2, int RootAmount)            /*вывод решений уравнения*/
+int EquationOutput(double x1, double x2, int RootAmount)            
 {
     switch(RootAmount)
     {
@@ -56,4 +56,5 @@ int EquationOutput(double x1, double x2, int RootAmount)            /*вывод реше
     }
     return 0;
 }
+
 
