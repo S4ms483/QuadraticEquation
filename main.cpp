@@ -21,9 +21,10 @@ int main(void)
 
     Input(&a, &b, &c);
 
-    RootAmount = SolveEquation(a, b, c, &x1, &x2);  /*решаем уравнение и находим количество корней*/
+    RootAmount = SolveEquation(a, b, c, &x1, &x2);  
 
-    EquationOutput(x1, x2, RootAmount);             /*выводим решения*/
+    EquationOutput(x1, x2, RootAmount);             
 
     return 0;
 }
+
