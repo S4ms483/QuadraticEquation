@@ -1,21 +1,24 @@
+#include "user.h"
+
 #include <stdio.h>
 #include <assert.h>
-#include "user.h"
+#include <string.h>
+
 #include "solve.h"
+#include "equality.h"
+#include "tests.h"
 
 
-void Input(double* a, double* b, double* c)                         
+void Input(Coeffs* coeffs)
 {
-    assert (a != NULL);
-    assert (b != NULL);
-    assert (c != NULL);
+    assert (coeffs != NULL);
 
-    int s = scanf("%lf %lf %lf", a, b, c);
+    int s = scanf("%lf %lf %lf", &(coeffs->a), &(coeffs->b), &(coeffs->c));
     int ch = getchar();
 
     while ((s < 3) || ((ch != ' ') && (ch != EOF) && (ch != '\n')))
     {
-        printf("Incorrect input. Try again\n");
+        printf(RED "Incorrect input. Try again\n" RESET);
 
         ch = getchar();
         while (ch != '\n')
@@ -23,7 +26,7 @@ void Input(double* a, double* b, double* c)
             ch = getchar();
         }
 
-        s = scanf("%lf %lf %lf", a, b, c);
+        s = scanf("%lf %lf %lf", &(coeffs->a), &(coeffs->b), &(coeffs->c));
         ch = getchar();
 
     }
@@ -32,7 +35,27 @@ void Input(double* a, double* b, double* c)
 
 
 
-int EquationOutput(double x1, double x2, int RootAmount)            
+int AdditionalCommands(int argc, char* argv[])
+{
+    if (argc == 1)
+    {
+        return Flags::NoFlag;
+    }
+    else if (argc == 2 && strcmp(argv[1], "--test") == 0)
+    {
+        if (TestFile())
+        {
+            return Flags::NoMistake;
+        }
+        return Flags::Mistake;
+    }
+    printf(RED "Flag unidentified" RESET);
+    return Flags::Mistake;
+}
+
+
+
+void EquationOutput(Results* results, int RootAmount)
 {
     switch(RootAmount)
     {
@@ -45,16 +68,14 @@ int EquationOutput(double x1, double x2, int RootAmount)
             break;
 
         case NumOfRoots::ONEROOT:
-            printf("The equation has one root: %lg", x1);
+            printf("The equation has one root: %lg", results->x1);
             break;
 
         case NumOfRoots::TWOROOTS:
-            printf("The equation has two roots: %lg and %lg", x1, x2);
+            printf("The equation has two roots: %lg and %lg", results->x1, results->x2);
             break;
         default:
-            assert(0); // cho sluchilos???
+            assert(0 && "cho sluchilos???");
     }
-    return 0;
 }
-
 
