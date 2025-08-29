@@ -6,80 +6,84 @@
 
 #include "equality.h"
 
-int SolveEquation(double a, double b, double c,
-                        double* x1, double* x2)                     
+
+int SolveEquation(const Coeffs* coeffs, Results* results)
 {
-    assert(x1 != NULL);
-    assert(x2 != NULL);
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(results != NULL);
+    assert(isfinite(coeffs->a));
+    assert(isfinite(coeffs->b));
+    assert(isfinite(coeffs->c));
 
     int nRoots = 0;
-    double d;                                       
-    d = b*b - 4*a*c;
+    double d;
+    d = (coeffs->b)*(coeffs->b) - 4*(coeffs->a)*(coeffs->c);
 
-    (AreEqual(a, 0))
-        ? (nRoots = Linear(b, c, x1))
-        : (nRoots = Square(a, b, c, d, x1, x2));
+    (AreEqual(coeffs->a, 0))
+        ? (nRoots = Linear(coeffs, results))
+        : (nRoots = Square(coeffs, results, d));
     return nRoots;
 }
 
 
 
-int Linear(double b, double c, double* x1)                         
+int Linear(const Coeffs* coeffs, Results* results)
 {
-    assert(x1 != NULL);
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(results != NULL);
+    assert(isfinite(coeffs->b));
+    assert(isfinite(coeffs->c));
 
-    if (AreEqual(b, 0))
+    if (AreEqual(coeffs->b, 0))
     {
-        if (AreEqual(c, 0))                               
+        if (AreEqual(coeffs->c, 0))
         {
             return NumOfRoots::INFROOTS;
         }
 
         else
         {
-            return NumOfRoots::NOROOTS;                               
+            return NumOfRoots::NOROOTS;
         }
     }
 
 
     else
-    {                   
-        *x1 = -c/b;
+    {
+        results->x1 = -(coeffs->c)/(coeffs->b);
+        results->x1 = AreEqual(results->x1, 0) ? 0 : results->x1;
+
         return NumOfRoots::ONEROOT;
     }
 }
 
 
-int Square(double a, double b, double c, double d,
-                  double* x1, double* x2)                           
+int Square(const Coeffs* coeffs, Results* results, double d)
 {
-    assert(x1 != NULL);
-    assert(x2 != NULL);
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(results != NULL);
+    assert(isfinite(coeffs->a));
+    assert(isfinite(coeffs->b));
+    assert(isfinite(coeffs->c));
 
-    if (AreEqual(d, 0))                                   
+    if (AreEqual(d, 0))
     {
-        *x1 = -b/(2*a);
+        results->x1 = -(coeffs->b)/(2*(coeffs->a));
+
+        results->x1 = AreEqual(results->x1, 0) ? 0 : results->x1;
+
         return NumOfRoots::ONEROOT;
     }
-                                                
+
     else if (d < 0)
     {
         return NumOfRoots::NOROOTS;
     }
-                                                  
+
     else
     {
-        *x1 = (-b - sqrt(d))/(2*a);
-        *x2 = (-b + sqrt(d))/(2*a);
+        results->x1 = (-(coeffs->b) - sqrt(d))/(2*(coeffs->a));
+        results->x2 = (-(coeffs->b) + sqrt(d))/(2*(coeffs->a));
+        results->x1 = AreEqual(results->x1, 0) ? 0 : results->x1;
+        results->x2 = AreEqual(results->x2, 0) ? 0 : results->x2;
+
         return NumOfRoots::TWOROOTS;
     }
 }
-

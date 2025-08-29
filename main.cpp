@@ -3,28 +3,38 @@
 #include <stdbool.h>
 #include <assert.h>
 
+#include "assert.h"
 #include "tests.h"
 #include "solve.h"
 #include "user.h"
 
 
-int main(void)
+/// @brief Main function
+/// @param argc  amount of commands given to the terminal
+/// @param argv  array of commands given to the terminal
+/// @return returns 0 in case of success and 1 in case of mistake
+int main(int argc, char *argv[])
 {
-    RunTest();
+    //MyAssert(1 == 0, "Hello world");
+    
+    if (AdditionalCommands(argc, argv) == Flags::Mistake)
+    {
+        return 1;
+    }
 
-    double a = 0, b = 0, c = 0;
-    double x1 = 0, x2 = 0;
-    int RootAmount = 0;
+    Coeffs coeffs = {NAN, NAN, NAN};
+    Results results = {NAN, NAN};
 
-    printf ("Quadratic equation solver\n");
+    printf (UNDERLINED "Quadratic equation solver\n" RESET);
     printf ("Enter a-, b- and c-coefficients:\n");
 
-    Input(&a, &b, &c);
+    Input(&coeffs);
 
-    RootAmount = SolveEquation(a, b, c, &x1, &x2);  
+    int RootAmount = SolveEquation(&coeffs, &results);
 
-    EquationOutput(x1, x2, RootAmount);             
+    EquationOutput(&results, RootAmount);
 
     return 0;
 }
+
 
